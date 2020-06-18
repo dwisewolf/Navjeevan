@@ -180,6 +180,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 #PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 #STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 CRONJOBS = [
-    ('0 */1 * * *', 'vimeoapi.views.myjob'),
+    ('38 */1 * * *', 'vimeoapi.views.myjob'),
 ]
 
