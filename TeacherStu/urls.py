@@ -14,6 +14,9 @@ urlpatterns = [
     path('newsUpload/', views.addNews, name='addNews'), 
     path('stuListSchool/', views.stuListSchool, name='Student_Data_BasedOn_School_code'),
     # path('videoFile/<int:id>/', views.FileView.as_view()),
+    path('stuTaskData/', views.stuTaskList.as_view()), 
+    path('notesData/', views.notesList.as_view()),
+    path('feedBackData/', views.feedBackList.as_view()),
 
 ]
 

@@ -138,6 +138,7 @@
                         </div>
                     </div> -->
         <div id="layoutSidenav_content">
+            
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">Users List </h1>
@@ -145,7 +146,7 @@
                             <div class="card-header"><i class="fas fa-table mr-1"></i>Users Information</div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <a href='create/'>
+                                    <a href='create?q={{ code }}'>
                                     <button class="button button3">+ Add New User</button></a>
                                     <br>
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -153,10 +154,10 @@
                                             <tr>
                                                 <th>UserId</th>
                                                 <th>Name</th>
-                                                <th>Section</th> 
                                                 <th>Class</th>
                                                 <th>Mobile Number</th>
                                                 <th>Category</th> 
+                                                <th>Access</th> 
                                                 <th>Action</th>
                                                 
                                             </tr>
@@ -166,14 +167,15 @@
                                                 <tr>
                                                 <td><a href='stulist{{ object.userid }}?q={{ code }}/'>{{ object.userid }}</a></td>
                                                 <td>{{ object.name }}</td>
-                                                <td>{{ object.section }}</td>
+                                                <!-- <td>{{ object.fatherName }}</td> -->
                                                 <td>{{ object.clas }}</td>
                                                 <td>{{ object.mobileNum }}</td>
                                                 <td>{{ object.category }}</td>
+                                                <td>{{ object.Enable }}</td>
 
                                                 <td>
-                                                    <button title="Edit" style="border-radius:12px"><a href="stulist{{ object.userid }}/edit/">Edit</a></button>
-                                                    <button title="Delete" style="border-radius:12px"><a href="stulist{{ object.userid }}/delete/">Delete</a></button>
+                                                    <button title="Edit" style="border-radius:12px"><a href="stulist{{ object.userid }}/edit?q={{ code }}">Edit</a></button>
+                                                    <button title="Delete" style="border-radius:12px"><a href="stulist{{ object.userid }}/delete?q={{ code }}">Delete</a></button>
                                                 </td>
                                             </tr>
                                             {% endfor %}

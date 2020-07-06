@@ -10259,10 +10259,10 @@
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard</a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Tables
-                                
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
@@ -10271,7 +10271,42 @@
                                     <a class="nav-link" href="{% url 'AuthUsersList' %}?q={{object_list}}">Authenticated Users Information</a>
                                 </nav>
                             </div>
-                           
+                            
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayout" aria-expanded="false" aria-controls="collapseLayout">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Add Student Task
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapseLayout" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{% url 'createTask' %}?q={{object_list}}">Add New Task</a>
+                                    <a class="nav-link" href="{% url 'allTaskList' %}?q={{object_list}}">All Student's Task</a>
+                                </nav>
+                            </div>
+
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayoutThird" aria-expanded="false" aria-controls="collapseLayoutThird">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Teacher's Details
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapseLayoutThird" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{% url 'createTeachview' %}?q={{object_list}}">Add  Teacher's Detail</a>
+                                    <a class="nav-link" href="{% url 'allTeachTaskList' %}?q={{object_list}}">All Teacher's Details</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayoutFour" aria-expanded="false" aria-controls="collapseLayoutFour">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Feedback
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapseLayoutFour" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{% url 'createFeedview' %}?q={{object_list}}">Add  Feedback</a>
+                                    <a class="nav-link" href="{% url 'feedList' %}?q={{object_list}}">
+                                              List of all Feedback</a>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -10281,15 +10316,13 @@
                     <div class="container-fluid">
                         <h1 class="mt-4">Dashboard</h1>
                         <div class="card mb-4">
-                            <div class="card-header"><i class="fas fa-table mr-1"></i>User Info</div>
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Table Info</div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <!-- <a class="nav-link" href="{% url 'UsersList' %}">Users Table</a> -->
-                            <!-- <a class="nav-link" href="{% url 'AuthUsersList' %}">Authenticated Users Table</a> -->
                                         <thead>
                                             <tr>
-                                                <th>Table Name</th>
+                                                <th>User's Informations</th>
                                                 
                                             </tr>
                                         </thead>
@@ -10302,11 +10335,60 @@
                                               Users Information</a></td>
                                             </tr>
                                         </tbody>
+                                        <thead>
+                                            <tr>
+                                                <th>Student's Task</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <!-- <tr>
+                                                <td><a class="nav-link" href="{% url 'createTask' %}?q={{object_list}}">Add New Student Task</a></td>
+                                            </tr> -->
+                                            <tr>
+                                                <td><a class="nav-link" href="{% url 'allTaskList' %}?q={{object_list}}">
+                                              List of all Task</a></td>
+                                            </tr>
+                                        </tbody>
+                                         <thead>
+                                            <tr>
+                                                <th>Teacher's Details</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <!-- <tr>
+                                                <td><a class="nav-link" href="{% url 'createTeachview' %}?q={{object_list}}">Add Notes</a></td>
+                                            </tr>
+ -->                                            <tr>
+                                                <td><a class="nav-link" href="{% url 'allTeachTaskList' %}?q={{object_list}}">
+                                              All Teacher's Details</a></td>
+                                            </tr>
+                                        </tbody>
+                                        <thead>
+                                            <tr>
+                                                <th>Feedback</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <!-- <tr>
+                                                <td><a class="nav-link" href="{% url 'createFeedview' %}?q={{object_list}}">Add Feedback</a></td>
+                                            </tr> -->
+                                            <tr>
+                                                <td><a class="nav-link" href="{% url 'feedList' %}?q={{object_list}}">
+                                              List of all Feedback</a></td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        <!-- </div> -->
+                        <!-- <div class="card mb-4"> -->
+                          
+                    
+                                        
+                                    
                 </main>
             </div>
         </div>

@@ -6,7 +6,6 @@ import json
 from rest_framework import status 
 from . serializers import stuSerializer
 
-
 # Get Same object Data After Login 
 # def LoginDataSuccessResponse(object, status):
 #     stu_list=Teachstu.objects.filter(mobileNum=object).values()
@@ -22,12 +21,15 @@ def MesgResponse(objects,mesg,status):
 
 # Get Same object Data After Login 
 def LoginDataSuccessResponse(object, status):
-    stu_list=Student.objects.filter(mobileNum=object).values()
+    enable=Student.objects.filter(Enable="True")
+    stu_list=enable.filter(mobileNum=object).values()
     serializer=stuSerializer(stu_list,many=True)
     return Response(serializer.data)
 
 # Method that return data that have same objects 
 def SuccessResponse(objects, status):
+    # serializer=commentSerializer(objects,many=True)
+    # return Response(serializer.data)
     return JsonResponse({
         "results":objects,
         "status":status

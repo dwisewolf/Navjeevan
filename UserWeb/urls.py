@@ -21,9 +21,27 @@ urlpatterns = [
     url(r'^home/stulist(?P<userid>[\w-]+)/delete/$', views.delete_view, name='deleteUser'), 
     url(r'^home/usersList/stulistAuth(?P<id>\d+)/delete/$', views.delete_view_user, name='deleteAuthUser'),
     # url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    #Student Panel
+    # url(r'^empanellist(?P<id>\d+)/edit/$', views.update_view, name='update'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name="login.html"), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(template_name="userlogout.html"), name='logout'),
     path('userlogin/', views.Userdata,name='userlogin'),
     path('userlogout/', views.userlogout,name='userlogout'),
+# Student's Task URL's
+    path('home/addTask', views.create_Taskview,name='createTask'), 
+    path('home/allTask', views.stuTaskList,name='allTaskList'), 
+    url(r'^home/tasklist(?P<id>\d+)/edit/$', views.update_Taskview, name='updateTask'), 
+    url(r'^home/tasklist(?P<id>\d+)/delete/$', views.delete_Taskview, name='deleteTask'), 
+    url(r'^home/clasSearch/(?P<clas>[\w\-]+)/search/$', views.clasSearch, name='clasSearch'),   
+    url(r'^home/dateSearch/search/$', views.dateSearch, name='dateSearch'), 
+# Teacher's Details URL's
+    path('home/addTeachTask', views.create_Teachview,name='createTeachview'), 
+    path('home/allTeachTask', views.teachTaskList,name='allTeachTaskList'), 
+    url(r'^home/techtasklist(?P<id>\d+)/edit/$', views.update_TechTaskview, name='updateTechTask'), 
+    url(r'^home/techtasklist(?P<id>\d+)/delete/$', views.delete_TechTaskview, name='deleteTechTask'),
+    url(r'^home/clasTechSearch/(?P<clas>[\w\-]+)/search/$', views.clastechSearch, name='clastechSearch'), 
+# Feedback URL's
+    path('home/addFeedback', views.createFeedview,name='createFeedview'), 
+    path('home/allFeedback', views.feedList,name='feedList'), 
+    url(r'^home/feedlist(?P<id>\d+)/edit/$', views.update_feedview, name='updateFeed'), 
+    url(r'^home/feedlist(?P<id>\d+)/delete/$', views.delete_feedview, name='deleteFeed'), 
 ]

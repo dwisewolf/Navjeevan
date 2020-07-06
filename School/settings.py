@@ -182,4 +182,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 CRONJOBS = [
     ('38 */1 * * *', 'vimeoapi.views.myjob'),
 ]
+# if data missing thn run job immidiate. there 38 means i.e. in every hour 38th minutes the job will run, if want run in any specific time thn need to edit
+# after edit need to run add command - (python manage.py crontab add) twice 
 

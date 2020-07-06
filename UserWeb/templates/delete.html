@@ -23,13 +23,15 @@
                 <form method='POST' action="."> {% csrf_token %}
                 Are you sure, You want to delete this User ?
                 </form>
-                <form method='POST' action="."> {% csrf_token %}
+                
+                <form method = "post" enctype="multipart/form-data">  {% csrf_token %}
                 <input type='submit' value='Yes'>
                     
-                <a href='/home/'>Cancel</a>
+                <a href='/home/stuTeachList?q={{ code }}'>Cancel</a>
 
                 </form>
                 {% endblock content %}
+            
             </div>
         </div>
     </div>

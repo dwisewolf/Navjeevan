@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.http import JsonResponse, HttpResponse
-from .models import Student, Video, User, News
+from .models import Student, Video, User, News, Stu_Task, Teach_Task, Feedback
 from django.shortcuts import render #Default
 from django.http import *
 from django.shortcuts import get_object_or_404 #get object(error) when object not exist
@@ -14,24 +14,22 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse, HttpResponse
 import json
 from django.db.models import Q
-from . serializers import stuSerializer, videoSerializer, userSerializer, newsSerializer
+from . serializers import stuSerializer, videoSerializer, userSerializer, newsSerializer, stuTaskSerializer, noteSerializer, feedbackSerializer
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 
-
 class stulist(APIView):
 
     def get(self, request):
-        stu_list=Student.objects.all()
-        serializer=stuSerializer(stu_list,many=True)
-        return Response(serializer.data)
-
+    	enable=Student.objects.filter(Enable="True")
+    	stu_list=enable.all()
+    	serializer=stuSerializer(stu_list,many=True)
+    	return Response(serializer.data)
 
     def post(self, request):
         data=self.request.data
-
         mobileNum = data.get('mobileNum')
         # if (Student.objects.filter(mobileNum=mobileNum).exists()):
         if (User.objects.filter(mobileNum=mobileNum).exists()):
@@ -54,6 +52,18 @@ class stulist(APIView):
                 return services.LoginDataSuccessResponse(mobileNum,status=200) 
         # else:
             # return services.MesgResponse(mobileNum,mesg='Enter Valid Mobile Number...',status=204)
+
+@api_view(['POST',])
+def checkMobileNum(request):
+	mobileNum = request.data.get('mobileNum',None)
+	enable=Student.objects.filter(Enable="True")
+	if (enable.filter(mobileNum=mobileNum).exists()):
+		if (enable.filter(mobileNum=mobileNum).exists()):
+			return services.MesgResponse(mobileNum,mesg='Mobile Number is Valid...',status=status.HTTP_201_CREATED)
+		else:
+			return services.MesgResponse(mobileNum,mesg='Mobile Number is Invalid...',status=status.HTTP_400_BAD_REQUEST)    
+	else:
+		return services.MesgResponse(mobileNum,mesg='User is Blocked from School',status=status.HTTP_400_BAD_REQUEST)
 
 
 class FileView(APIView):
@@ -105,6 +115,80 @@ class NewsView(APIView):
 		else:
 			return services.MesgResponse(user_code, mesg='User-Code is Not Exist', status=status.HTTP_400_BAD_REQUEST) 
 
+class stuTaskList(APIView):
+
+    def get(self, request):
+        stuTask_list=Stu_Task.objects.all()
+        serializer=stuTaskSerializer(stuTask_list,many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data=self.request.data
+        school_code = data.get('school_code')
+        clas = data.get('clas')
+        date = data.get('date')
+        if (Stu_Task.objects.filter(school_code=school_code).exists()):
+        	scode = Stu_Task.objects.filter(school_code=school_code)
+        	if (scode.filter(clas=clas).exists()):
+        		stu_list=scode.filter(clas=clas).values()
+        		if (stu_list.filter(date=date).exists()):
+        			dvalue=stu_list.filter(date=date).values()
+        			# dvalue.filter(date=date).values()
+	        		serializer=stuTaskSerializer(dvalue,many=True)
+	        		return Response(serializer.data)
+	        	else:
+	        		return services.MesgResponse(clas,mesg="Date Not Exist",status=status.HTTP_400_BAD_REQUEST)
+        	else:
+        		return services.MesgResponse(clas,mesg="Class Not Exist",status=status.HTTP_400_BAD_REQUEST)
+        else:
+        	return services.MesgResponse(school_code,mesg="School Not Exist",status=status.HTTP_400_BAD_REQUEST) 
+
+class notesList(APIView):
+
+    def get(self, request):
+        note_list=Teach_Task.objects.all()
+        serializer=noteSerializer(note_list,many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data=self.request.data
+        school_code = data.get('school_code')
+        clas = data.get('clas')
+        if (Teach_Task.objects.filter(school_code=school_code).exists()):
+        	scode = Teach_Task.objects.filter(school_code=school_code)
+        	if (scode.filter(clas=clas).exists()):
+        		stu_list=scode.filter(clas=clas).values()
+        		serializer=noteSerializer(stu_list,many=True)
+        		return Response(serializer.data)
+        	else:
+        		return services.MesgResponse(clas,mesg="Class Not Exist",status=status.HTTP_400_BAD_REQUEST)
+        else:
+        	return services.MesgResponse(school_code,mesg="School Not Exist",status=status.HTTP_400_BAD_REQUEST) 
+
+class feedBackList(APIView):
+
+    def get(self, request):
+        feed_list=Feedback.objects.all()
+        serializer=feedbackSerializer(feed_list,many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data=self.request.data
+        school_code = data.get('school_code')
+        userid = data.get('userid')
+        if (Feedback.objects.filter(school_code=school_code).exists()):
+        	scode = Feedback.objects.filter(school_code=school_code)
+        	if (scode.filter(userid=userid).exists()):
+        		stu_list=scode.filter(userid=userid).values()
+        		serializer=feedbackSerializer(stu_list,many=True)
+        		return Response(serializer.data)
+        	else:
+        		return services.MesgResponse(userid,mesg="User-Id Not Exist",status=status.HTTP_400_BAD_REQUEST)
+        else:
+        	return services.MesgResponse(school_code,mesg="School Not Exist",status=status.HTTP_400_BAD_REQUEST) 
+
+
+
 
 @api_view(['POST',])
 def stuListSchool(request):
@@ -116,16 +200,7 @@ def stuListSchool(request):
       	return Response(serializer.data)
       else:
           return services.MesgResponse(school_code,mesg='School Code is Invalid...',status=status.HTTP_400_BAD_REQUEST)    
-    
 
-@api_view(['POST',])
-def checkMobileNum(request):
-    mobileNum = request.data.get('mobileNum',None)
-    if (Student.objects.filter(mobileNum=mobileNum).exists()):
-        return services.MesgResponse(mobileNum,mesg='Mobile Number is Valid...',status=status.HTTP_201_CREATED)
-    else:
-        return services.MesgResponse(mobileNum,mesg='Mobile Number is Invalid...',status=status.HTTP_400_BAD_REQUEST)      
-          
 @api_view(['GET',])
 def userData(request):
       stu_list=User.objects.all()
