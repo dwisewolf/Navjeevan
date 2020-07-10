@@ -10258,16 +10258,20 @@
                             <a class="nav-link" href="{% url 'home' %}?q={{ object_list }}"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard</a>
+                            <a class="nav-link" href="{% url 'authallTaskList' %}"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Teacher's Login</a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
 
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Tables
+                                All Users Tables
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
                             ></a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{% url 'UsersList' %}?q={{object_list}}">Users Information</a>
+
+                                    <a class="nav-link" href="{% url 'UsersList' %}?q={{object_list}}">User's Information</a>
                                     <a class="nav-link" href="{% url 'AuthUsersList' %}?q={{object_list}}">Authenticated Users Information</a>
                                 </nav>
                             </div>
@@ -10279,7 +10283,7 @@
                             ></a>
                             <div class="collapse" id="collapseLayout" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{% url 'createTask' %}?q={{object_list}}">Add New Task</a>
+                                    <!-- <a class="nav-link" href="{% url 'createTask' %}?q={{object_list}}">Add New Task</a> -->
                                     <a class="nav-link" href="{% url 'allTaskList' %}?q={{object_list}}">All Student's Task</a>
                                 </nav>
                             </div>
@@ -10302,7 +10306,7 @@
                             ></a>
                             <div class="collapse" id="collapseLayoutFour" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{% url 'createFeedview' %}?q={{object_list}}">Add  Feedback</a>
+                            
                                     <a class="nav-link" href="{% url 'feedList' %}?q={{object_list}}">
                                               List of all Feedback</a>
                                 </nav>
@@ -10347,7 +10351,7 @@
                                             </tr> -->
                                             <tr>
                                                 <td><a class="nav-link" href="{% url 'allTaskList' %}?q={{object_list}}">
-                                              List of all Task</a></td>
+                                              List of all Student's Task</a></td>
                                             </tr>
                                         </tbody>
                                          <thead>
@@ -10372,9 +10376,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <!-- <tr>
-                                                <td><a class="nav-link" href="{% url 'createFeedview' %}?q={{object_list}}">Add Feedback</a></td>
-                                            </tr> -->
+                                        
                                             <tr>
                                                 <td><a class="nav-link" href="{% url 'feedList' %}?q={{object_list}}">
                                               List of all Feedback</a></td>

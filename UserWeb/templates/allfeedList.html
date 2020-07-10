@@ -177,9 +177,8 @@
                                             {% endfor %}
                                       </div>
                                     </div> -->
-                                    <a href="{% url 'createFeedview' %}?q={{code}}">
-                                    <button class="button button3">+ Add New Feedback</button></a>
-                                    <br>
+
+                                
                                     <!-- <br> -->
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
@@ -188,21 +187,21 @@
                                                 
                                                 <!-- <th>Father Name</th> -->
                                                 <th>User-Id</th>
-                                                <th>Reply</th>
                                                 <th>Feedback</th>
+                                                <!-- <th>Reply</th> -->
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for object in object_list %}
                                                 <tr>
-                                                <td>{{ object.school_code }}</a></td>
-                                                <td>{{ object.userid }}</td>
-                                                <td>{{ object.reply }}</td>
-                                                <td>{{ object.feedback }}</td>
+                                                <td>{{ object.school }}</a></td>
+                                                <td>{{ object.user }}</td>
+                                                <td>{{ object.msg }}</td>
+                                                <!-- <td>{{ object.id }}</td> -->
                                                 <td>
                                                     <button title="Edit" style="border-radius:12px"><a href="/home/feedlist{{ object.id }}/edit?q={{ code }}">Edit</a></button>
-                                                    <button title="Delete" style="border-radius:12px"><a href="/home/feedlist{{ object.id }}/delete?q={{ code }}">Delete</a></button>
+                                    
                                                 </td>
                                                 
                                             </tr>

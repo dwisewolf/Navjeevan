@@ -10,6 +10,7 @@ urlpatterns = [
     #Admin Panel
     #url(r'^home/$', TemplateView.as_view(template_name='index.html'), name='home'),
     url(r'^home/$', views.home, name='home'),
+    url(r'^Taskhome/$', views.TaskHome, name='TaskHome'),  
     path('home/create/', views.create_view,name='createUser'), 
     # path('home/createAuth/', views.create_view_user,name='createAuthUser'),
     url(r'^home/stuTeachList$', views.stuTeachList, name='UsersList'),
@@ -27,12 +28,17 @@ urlpatterns = [
     path('userlogin/', views.Userdata,name='userlogin'),
     path('userlogout/', views.userlogout,name='userlogout'),
 # Student's Task URL's
-    path('home/addTask', views.create_Taskview,name='createTask'), 
     path('home/allTask', views.stuTaskList,name='allTaskList'), 
+    path('home/addTask', views.create_Taskview,name='createTask'),  
     url(r'^home/tasklist(?P<id>\d+)/edit/$', views.update_Taskview, name='updateTask'), 
     url(r'^home/tasklist(?P<id>\d+)/delete/$', views.delete_Taskview, name='deleteTask'), 
-    url(r'^home/clasSearch/(?P<clas>[\w\-]+)/search/$', views.clasSearch, name='clasSearch'),   
-    url(r'^home/dateSearch/search/$', views.dateSearch, name='dateSearch'), 
+    url(r'^home/clasSearch/(?P<clas>[\w\-]+)/search/$', views.clasSearch, name='clasSearch'),
+    path('Taskhome/authallTask', views.authStuTaskList,name='authallTaskList'),
+    path('Taskhome/allTechTask', views.stuTaskList2,name='allTaskList2'),
+    path('Taskhome/techaddTask', views.create_Taskview2,name='techcreateTask'),
+    url(r'^Taskhome/techtasklist(?P<id>\d+)/edit/$', views.update_Taskview2, name='techupdateTask'), 
+    url(r'^Taskhome/techtasklist(?P<id>\d+)/delete/$', views.delete_Taskview2, name='techdeleteTask'), 
+    url(r'^Taskhome/techclasSearch/(?P<clas>[\w\-]+)/search/$', views.clasSearch2, name='techclasSearch'),    
 # Teacher's Details URL's
     path('home/addTeachTask', views.create_Teachview,name='createTeachview'), 
     path('home/allTeachTask', views.teachTaskList,name='allTeachTaskList'), 
@@ -40,8 +46,7 @@ urlpatterns = [
     url(r'^home/techtasklist(?P<id>\d+)/delete/$', views.delete_TechTaskview, name='deleteTechTask'),
     url(r'^home/clasTechSearch/(?P<clas>[\w\-]+)/search/$', views.clastechSearch, name='clastechSearch'), 
 # Feedback URL's
-    path('home/addFeedback', views.createFeedview,name='createFeedview'), 
     path('home/allFeedback', views.feedList,name='feedList'), 
-    url(r'^home/feedlist(?P<id>\d+)/edit/$', views.update_feedview, name='updateFeed'), 
-    url(r'^home/feedlist(?P<id>\d+)/delete/$', views.delete_feedview, name='deleteFeed'), 
+    url(r'^home/feedlist(?P<id>[\w\-]+)/edit/$', views.update_feedview, name='updateFeed'), 
+    # url(r'^home/feedlist(?P<id>[\w\-]+)/delete/$', views.delete_feedview, name='deleteFeed'), 
 ]

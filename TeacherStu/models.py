@@ -181,11 +181,10 @@ class Feedback(models.Model):
 
     school_code = models.CharField(max_length=3)
     userid = models.CharField(max_length=255)
-    reply = models.CharField(max_length=255)
-    feedback = models.TextField(max_length=500)
-    
+    feedback = models.TextField(max_length=500,null=True,blank=True)
+    reply = models.CharField(max_length=255,null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
     def __str__(self):
-        return (str(self.userid))
+        return str(self.school_code) + " : " + str(self.userid)
