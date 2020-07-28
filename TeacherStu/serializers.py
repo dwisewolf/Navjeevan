@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import Student, Video, User, News, Stu_Task, Teach_Task, Feedback
+from . models import Student, Video, User, News, Stu_Task, Teach_Task, Feedback, MCQ_Post, MCQ_Question, MCQ_Answer, MCQ_Result
 
 class stuSerializer(serializers.ModelSerializer):
 
@@ -42,6 +42,35 @@ class feedbackSerializer(serializers.ModelSerializer):
   class Meta():
     model = Feedback
     fields = '__all__' 
+    
+class MCQ_PostSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = MCQ_Post
+        fields = '__all__'
+
+class MCQ_QueSerializer(serializers.ModelSerializer):
+
+    MCQPost_id = MCQ_PostSerializer(read_only=True)
+    
+    class Meta:
+        model = MCQ_Question
+        fields = ('id','que_title','flag', 'que_Image', 'choice_1', 'choice_2','choice_3' ,'choice_4' ,'correct_answer' ,'created_at', 'updated_at','MCQPost_id')
+        # fields = '__all__'
+
+class MCQ_AnswerSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = MCQ_Answer
+        fields = '__all__' 
+
+class MCQ_ResultSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = MCQ_Result
+        fields = '__all__'       
+                
+   
         
 
         

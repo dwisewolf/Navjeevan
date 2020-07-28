@@ -47,7 +47,7 @@ button {
     <h2 style="text-align:center"><b>Student's Task Panel</b></h2>
     <!-- <hr> -->
                 
-                <form method = "post" enctype="multipart/form-data"> 
+                <form method = "post" autocomplete="off" enctype="multipart/form-data"> 
                     {% csrf_token %} 
                     <b> {{ form.as_p }} 
                     </b>

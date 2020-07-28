@@ -185,8 +185,9 @@
                                             <tr>
                                                 <th>School Code</th>
                                                 
-                                                <!-- <th>Father Name</th> -->
+                                                
                                                 <th>User-Id</th>
+                                                <th>Date</th>
                                                 <th>Feedback</th>
                                                 <!-- <th>Reply</th> -->
                                                 <th>Action</th>
@@ -197,8 +198,8 @@
                                                 <tr>
                                                 <td>{{ object.school }}</a></td>
                                                 <td>{{ object.user }}</td>
+                                                <td>{{ object.date }}</td>
                                                 <td>{{ object.msg }}</td>
-                                                <!-- <td>{{ object.id }}</td> -->
                                                 <td>
                                                     <button title="Edit" style="border-radius:12px"><a href="/home/feedlist{{ object.id }}/edit?q={{ code }}">Edit</a></button>
                                     

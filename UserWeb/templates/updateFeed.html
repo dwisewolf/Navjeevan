@@ -94,12 +94,14 @@
                 <h1 class="display-4">Update Task</h1>
                 <hr class="my-4">
                 
-                <form method = "post" enctype="multipart/form-data"> 
+                <form method = "post" autocomplete="off" enctype="multipart/form-data"> 
                 {% csrf_token %} 
                     <label for="school_code">School: </label> 
                     <input id="school_code" class="form-control" type="text" name="school_code" value={{ object_list.school }} readonly> <br>
                     <label for="userid">User-Id: </label> 
                     <input id="userid" class="form-control" type="text" name="userid" value={{ object_list.user }} readonly> <br>
+                    <label for="date">Date: </label> 
+                    <input id="date" class="form-control" type="text" name="date" value={{ object_list.date }} readonly> <br>
                     <label for="feedback">Feedback : </label>
                     <textarea id="feedback" class="form-control" name="feedback" rows="4" cols="50" readonly>{{ object_list.msg }}</textarea> 
                     <!-- <input id="msg"  type="text" name="msg" value={{ object_list.msg }} readonly> <br> -->
@@ -108,7 +110,8 @@
                     <br>
                     <br>
                     <!-- <input id="reply" class="form-control" type="text" name="reply"> <br> -->
-                <button type="submit">UPDATE</button> 
+                <button type="submit">UPDATE</button>
+                <input type="button" onclick="location.href='/home/allFeedback?q={{ code }}';" value="Cancel"/> 
                 
                 </form>
                

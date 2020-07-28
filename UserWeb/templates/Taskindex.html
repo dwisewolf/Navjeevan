@@ -10216,7 +10216,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - School Admin</title>
+        <title>Dashboard - Teacher's</title>
         <link href="{% static 'styles.css' %}" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
@@ -10267,7 +10267,7 @@
                             ></a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    
+                            
                                     <a class="nav-link" href="#">User's Information</a>
                                     <a class="nav-link" href="#">Authenticated Users Information</a>
                                 </nav>
@@ -10303,9 +10303,18 @@
                             ></a>
                             <div class="collapse" id="collapseLayoutFour" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">Add  Feedback</a>
-                                    <a class="nav-link" href="#">
-                                              List of all Feedback</a>
+                                    <a class="nav-link" href="{% url 'authFeedLogin_before_allFeedList' %}?q={{object_list}}">List of all Feedback</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayoutSix" aria-expanded="false" aria-controls="collapseLayoutSix">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                MCQ's
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapseLayoutSix" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{% url 'authallMCQList' %}?q={{object_list}}">
+                                              List of all MCQ Topics</a>
                                 </nav>
                             </div>
                         </div>
@@ -10315,7 +10324,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h1 class="mt-4">Teacher's Dashboard</h1>
                         <div class="card mb-4">
                             <div class="card-header"><i class="fas fa-table mr-1"></i>Table Info</div>
                             <div class="card-body">
@@ -10343,9 +10352,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <!-- <tr>
-                                                <td><a class="nav-link" href="{% url 'createTask' %}?q={{object_list}}">Add New Student Task</a></td>
-                                            </tr> -->
+                                                
                                             <tr>
                                                 <td><a class="nav-link" href="{% url 'authallTaskList' %}?q={{object_list}}">
                                               List of all Student's Task</a></td>
@@ -10358,8 +10365,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                               
-                                          <tr>
+                                                     <tr>
                                                 <td><a class="nav-link" href="#">
                                               All Teacher's Details</a></td>
                                             </tr>
@@ -10371,9 +10377,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                         
                                             <tr>
-                                                <td><a class="nav-link" href="#">
+                                                <td><a class="nav-link" href="{% url 'authFeedLogin_before_allFeedList' %}?q={{object_list}}">
                                               List of all Feedback</a></td>
+                                            </tr>
+                                        </tbody>
+                                        <thead>
+                                            <tr>
+                                                <th>MCQ's</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                         
+                                            <tr>
+                                                <td><a class="nav-link" href="{% url 'authallMCQList' %}?q={{object_list}}">
+                                              List of all MCQ's Details</a></td>
                                             </tr>
                                         </tbody>
                                     </table>

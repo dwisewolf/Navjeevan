@@ -10258,7 +10258,7 @@
                             <a class="nav-link" href="{% url 'home' %}?q={{ object_list }}"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard</a>
-                            <a class="nav-link" href="{% url 'authallTaskList' %}"
+                            <a class="nav-link" href="{% url 'TaskHome' %}"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Teacher's Login</a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
@@ -10270,7 +10270,7 @@
                             ></a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-
+                                  
                                     <a class="nav-link" href="{% url 'UsersList' %}?q={{object_list}}">User's Information</a>
                                     <a class="nav-link" href="{% url 'AuthUsersList' %}?q={{object_list}}">Authenticated Users Information</a>
                                 </nav>
@@ -10306,11 +10306,24 @@
                             ></a>
                             <div class="collapse" id="collapseLayoutFour" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                            
+                                   
                                     <a class="nav-link" href="{% url 'feedList' %}?q={{object_list}}">
                                               List of all Feedback</a>
                                 </nav>
                             </div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayoutFive" aria-expanded="false" aria-controls="collapseLayoutFive">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                News Data
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapseLayoutFive" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{% url 'allNewsDataList' %}?q={{object_list}}">
+                                              List of all News</a>
+                  
+                                </nav>
+                            </div>
+                  
                         </div>
                     </div>
                 </nav>
@@ -10376,12 +10389,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        
+                                              
                                             <tr>
                                                 <td><a class="nav-link" href="{% url 'feedList' %}?q={{object_list}}">
                                               List of all Feedback</a></td>
                                             </tr>
                                         </tbody>
+                                
+                                        
+                        
                                     </table>
                                 </div>
                             </div>
