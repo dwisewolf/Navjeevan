@@ -152,6 +152,7 @@ class Stu_Task(models.Model):
         ('Science', 	'Science'),
         ('Computer', 	'Computer' ),
         ('Social Studies',	'Social Studies'),
+        ('Civics', 	'Civics'), 
         ('History', 	'History'),
         ('Geography',	'Geography'),
         ('Political Science',	'Political Science'),
@@ -254,6 +255,7 @@ class MCQ_Post(models.Model):
         ('Computer',    'Computer' ),
         ('Social Studies',  'Social Studies'),
         ('History',     'History'),
+        ('Civics', 	'Civics'),
         ('Geography',   'Geography'),
         ('Political Science',   'Political Science'),
         ('Economics',   'Economics'),
@@ -264,8 +266,11 @@ class MCQ_Post(models.Model):
         ('Biology', 'Biology'),
         ('Accountancy', 'Accountancy'),
         ('Business Studies',    'Business Studies'),
-        ('Political Science',   'Political Science'),
-        ('Psychology', 'Psychology')    
+        ('Psychology', 'Psychology'),
+        ('Hindi-Exam',   'Hindi-Exam'), 
+        ('Psychology-Exam', 'Psychology-Exam'), 
+        ('Computer Science-Exam',    'Computer Science-Exam' ),
+        ('Physical Education-Exam',  'Physical Education-Exam'), 
     )
     
     title = models.CharField(max_length=255,primary_key = True)
@@ -286,7 +291,7 @@ class MCQ_Question(models.Model):
     MCQPost_id = models.ForeignKey(MCQ_Post,related_name='Quiz_Topic', on_delete=models.CASCADE)
     que_title = models.TextField(max_length=500)
     flag = models.BooleanField(default=False)
-    que_Image = models.ImageField(upload_to='images/',max_length=1000,default="Blank")
+    que_Image = models.ImageField(upload_to='images/',max_length=1000,default="images/Blank")
     choice_1 = models.CharField(max_length=255)
     choice_2 = models.CharField(max_length=255)
     choice_3 = models.CharField(max_length=255)

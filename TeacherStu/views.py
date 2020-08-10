@@ -14,6 +14,8 @@ from . import services
 from rest_framework.decorators import api_view
 from django.http import JsonResponse, HttpResponse
 import json
+import datetime
+import pytz
 from django.db.models import Q
 from . serializers import stuSerializer, videoSerializer, userSerializer, newsSerializer, stuTaskSerializer, noteSerializer, feedbackSerializer, MCQ_QueSerializer, MCQ_PostSerializer, MCQ_AnswerSerializer, MCQ_ResultSerializer
 from rest_framework.views import APIView
@@ -214,10 +216,10 @@ def MCQ_QueView(request):
 	clas = data.get('clas')
 	if (MCQ_Question.objects.filter(MCQPost_id__school__contains=school).exists()):
 		scode = MCQ_Question.objects.filter(MCQPost_id__school__contains=school)
-		if (scode.filter(MCQPost_id__clas__contains=clas).exists()):
-			clas_list=scode.filter(MCQPost_id__clas__contains=clas).values()
-			if (clas_list.filter(MCQPost_id__title__contains=title).exists()):
-				sublist = clas_list.filter(MCQPost_id__title__contains=title).values()
+		if (scode.filter(MCQPost_id__clas=clas).exists()):
+			clas_list=scode.filter(MCQPost_id__clas=clas).values()
+			if (clas_list.filter(MCQPost_id__title=title).exists()):
+				sublist = clas_list.filter(MCQPost_id__title=title).values()
 				# serializer=MCQ_QueSerializer(sublist,many=True)
 				serializer = list(sublist)
 				# mesg=list(sublist)
@@ -369,6 +371,10 @@ def MCQ_FansView(request):
 					"Data":"Data Not Exist of that Title and Subject",
 					},status=status.HTTP_400_BAD_REQUEST)
 
+
+import datetime
+import pytz 
+
 class MCQ_ResultData(APIView):
 
 	def get(self, request):
@@ -381,15 +387,41 @@ class MCQ_ResultData(APIView):
 		school = data.get('school')
 		clas = data.get('clas')
 		userid = data.get('userid')
-		date = data.get('date')
-		if (MCQ_Result.objects.filter(userid=userid).exists()):
-			utitle=MCQ_Result.objects.filter(userid=userid).values_list('title', flat=True)
+		date = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+
+		sec=Student.objects.filter(userid=userid).values_list('section', flat=True)[0]
+		section=sec.replace(" ", "")
+		sci_Sub = ['Biology','Chemistry','Mathematics','Physics']
+		comm_Sub = ['Accountancy','Business Studies']
+		hum_Sub = ['Political Science','History']
+		commanSubOfCommHum = ['Economics']
+		print(section)
+
+		if (MCQ_Answer.objects.filter(userid=userid).exists()):
+			utitle=MCQ_Answer.objects.filter(userid=userid).values_list('title', flat=True)
 			if (MCQ_Post.objects.filter(school=school).exists()):
 				scode = MCQ_Post.objects.filter(school=school)
 				if (scode.filter(clas=clas,date=date).exists()):
-					clas_list=scode.filter(clas=clas,date=date).exclude(title__in=utitle)
-					serializer=MCQ_PostSerializer(clas_list,many=True)
-					return Response(serializer.data)
+					scodExclude = scode.filter(clas=clas,date=date).exclude(title__in=utitle)
+					if (clas == 'XII'):
+						if (section == 'S'):
+							clas_list = scodExclude.filter(clas=clas,date=date).exclude(subject__in=(commanSubOfCommHum+comm_Sub+hum_Sub)).values()
+							serializer = MCQ_PostSerializer(clas_list,many=True)
+							return Response(serializer.data)
+						elif (section == 'C'):
+							clas_list = scodExclude.filter(clas=clas,date=date).exclude(subject__in=(sci_Sub+hum_Sub)).values()
+							serializer = MCQ_PostSerializer(clas_list,many=True)
+							return Response(serializer.data)
+						elif (section == 'H'):
+							clas_list = scodExclude.filter(clas=clas,date=date).exclude(subject__in=(comm_Sub+sci_Sub)).values()
+							serializer = MCQ_PostSerializer(clas_list,many=True)
+							return Response(serializer.data)
+						else:
+							return services.MesgResponse(clas,mesg="Class 12th Section must be from C or H or S",status=status.HTTP_201_CREATED)
+					else:
+ 						clas_list=scodExclude.filter(clas=clas,date=date).values()
+ 						serializer=MCQ_PostSerializer(clas_list,many=True)
+ 						return Response(serializer.data)
 				else:
 					return services.MesgResponse(clas,mesg="Class or Date Not Exist",status=status.HTTP_400_BAD_REQUEST)
 			else:
@@ -398,15 +430,30 @@ class MCQ_ResultData(APIView):
 			if (MCQ_Post.objects.filter(school=school).exists()):
 				scode = MCQ_Post.objects.filter(school=school)
 				if (scode.filter(clas=clas,date=date).exists()):
-					clas_list=scode.filter(clas=clas,date=date).values()
-					serializer=MCQ_PostSerializer(clas_list,many=True)
-					return Response(serializer.data)
+					if (clas == 'XII'):
+						if (section == 'S'):
+							clas_list = scode.filter(clas=clas,date=date).exclude(subject__in=(commanSubOfCommHum+comm_Sub+hum_Sub)).values()
+							serializer = MCQ_PostSerializer(clas_list,many=True)
+							return Response(serializer.data)
+						elif (section == 'C'):
+							clas_list = scode.filter(clas=clas,date=date).exclude(subject__in=(sci_Sub+hum_Sub)).values()
+							serializer = MCQ_PostSerializer(clas_list,many=True)
+							return Response(serializer.data)
+						elif (section == 'H'):
+							clas_list = scode.filter(clas=clas,date=date).exclude(subject__in=(comm_Sub+sci_Sub)).values()
+							serializer = MCQ_PostSerializer(clas_list,many=True)
+							return Response(serializer.data)
+						else:
+							return services.MesgResponse(clas,mesg="Section must be from C or H or S",status=status.HTTP_201_CREATED)
+					else:
+ 						clas_list=scode.filter(clas=clas,date=date).values()
+ 						serializer=MCQ_PostSerializer(clas_list,many=True)
+ 						return Response(serializer.data)
 				else:
 					return services.MesgResponse(clas,mesg="Class or Date Not Exist",status=status.HTTP_400_BAD_REQUEST)
 			else:
 				return services.MesgResponse(school_code,mesg="School Not Exist",status=status.HTTP_400_BAD_REQUEST) 
- 
-                                                                                            
+                                                                                     
     
 
 @api_view(['GET',])
