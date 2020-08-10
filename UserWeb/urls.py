@@ -51,7 +51,7 @@ urlpatterns = [
     path('feedback/authFeed', views.authFeedList,name='authFeedLogin_before_allFeedList'),
     path('feedback/allFeedback', views.allfeedList,name='allfeedList'), 
     url(r'^feedback/feedlist(?P<id>[\w\-]+)/edit/$', views.authupdate_feedview, name='authUpdateFeed'), 
-    # url(r'^home/feedlist(?P<id>[\w\-]+)/delete/$', views.delete_feedview, name='deleteFeed'), 
+    url(r'^feedback/feedlist(?P<id>[\w\-]+)/delete/$', views.delete_feedview, name='deleteFeed'),
 # News's Details URL's
     path('home/allNewsData', views.NewsDataList,name='allNewsDataList'),
     path('home/addNewsData', views.create_NewsData,name='create_NewsData'),   
@@ -79,7 +79,12 @@ urlpatterns = [
     url(r'^Taskhome/Mdeleteque(?P<title>[\w\-\.\@\[(.*)\]\ ]+)/(?P<id>\d+)/delete/$', views.delete_MCQ_Queview2, name='authdeleteMCQ_Que'), 
     url(r'^Taskhome/MQueDetails/(?P<title>[\w\-\.\@\[(.*)\]\ ]+)/(?P<id>[\w\-]+)/details$', views.detail_MCQ_Queview2, name='authDetailsMCQ_Question_data'),
     url(r'^Taskhome/topicclasSearch/(?P<clas>[\w\-]+)/search/$', views.clasSearchTopic2, name='topic_clasSearch'), 
-    url(r'^Taskhome/MdeleteStu(?P<id>[\w\-]+)/delete/$', views.delete_MCQStu2, name='authdeleteMCQStudent_Result'),
+    url(r'^Taskhome/MdeleteStu(?P<id>[\w\-]+)/(?P<userid>[\w\-]+)/delete/$', views.delete_MCQStu2, name='authdeleteMCQStudent_Result'),
+    url(r'^Taskhome/MCQresDetails/(?P<userid>[\w\-]+)/(?P<title>[\w\-\.\@\[(.*)\]\ ]+)/details$', views.detail_MCQ_StuList2, name='User_ResultWith_Details'),
+    url(r'^Taskhome/MCQtestDetails/(?P<userid>[\w\-]+)/(?P<title>[\w\-\.\@\[(.*)\]\ ]+)/details$', views.detail_MCQ_StuTestList2, name='User_Test_Details'),
+    url(r'^Taskhome/MCQ_NoResDetails/details$', views.detail_MCQStu_NoRes_List2, name='User_Details_Those_NOresult'),
+    url(r'^Taskhome/MCQ_NoRes_Delete/(?P<userid>[\w\-]+)/(?P<title>[\w\-\.\@\[(.*)\]\ ]+)/delete$', views.delete_MCQStu3, name='User_Answer_NoRes_Delate'),
 
-
+# UnitTest Data From Firebase
+    path('home/firebaseDetail', views.detail, name='detail'),
 ]

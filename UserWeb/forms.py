@@ -1,5 +1,5 @@
 from django import forms  
-from . models import Users, FeedbackUser
+from . models import Users, FeedbackUser, AuthDeleteUser
 from django.core.exceptions import ValidationError
 from TeacherStu.models import Student, User, News, Stu_Task, Teach_Task, Feedback, MCQ_Post, MCQ_Question, MCQ_Answer, MCQ_Result
 
@@ -265,6 +265,39 @@ class NewsDataForm(forms.ModelForm):
             'news': forms.Textarea(attrs={'cols':10,'rows':5,'placeholder': 'Enter anout News','class':'form-control'}),
             'expiryDate': forms.DateInput(attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),
             'link': forms.Textarea(attrs={'cols':10,'rows':5, 'placeholder': 'Any Link','class':'form-control'}),
+           }
+           
+           
+class AuthDeleteLoginForm(forms.ModelForm):  
+
+    class Meta:
+        model = AuthDeleteUser
+        fields = ['name','password']
+
+        password = forms.CharField(widget=forms.PasswordInput)
+        widgets = {
+            'password': forms.PasswordInput(attrs={'class': 'input-text with-border', 'placeholder': 'Enter Password'}),
+            'name': forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter User Name'}),
+        }
+        labels = {
+            'name': ('User Name'),
+            'password':('Password'),
+            }
+
+class MCQ_ResultFind(forms.ModelForm):  
+
+    class Meta:
+        model = MCQ_Post
+        fields = ['clas','subject']
+
+        # labels = {
+        #     'userid': ('Student User-Id'),
+        #     'title':('Title'),
+        # }
+        # fields = ('id','que_title', 'choice_1', 'choice_2','choice_3' ,'choice_4' ,'correct_answer' ,'created_at', 'updated_at','MCQPost_id')
+        widgets = {
+            'clas': forms.Select(attrs={'id':'choicewa','class':'form-control'}),
+            'subject': forms.Select(attrs={'id':'choicewa','class':'form-control'}),
            }
 
         

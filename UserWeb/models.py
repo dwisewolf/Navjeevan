@@ -16,3 +16,11 @@ class FeedbackUser(models.Model):
 
     def __str__(self):
         return str(self.name)+" ------- "+str(self.password)
+        
+class AuthDeleteUser(models.Model):
+
+    name = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.name)+" ------- "+str(self.password)

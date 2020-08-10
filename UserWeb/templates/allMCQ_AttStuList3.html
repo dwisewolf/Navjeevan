@@ -113,16 +113,20 @@
                <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">MCQ Student's List </h1>
+                        <h1 class="mt-4">MCQ Student's List (Those Result not Declared)</h1>
                         <div class="card mb-4">
                             <div class="card-header"><i class="fas fa-table mr-1"></i>MCQ Student's Informations</div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    
-                                <a href="{% url 'User_Details_Those_NOresult' %}?q={{query}}">
-                                    <button class="button button3">Check Students those Result is Not Declared</button></a>
 
+                                   <!--  <a href="{% url 'User_Details_Those_NOresult' %}?q={{query}}">
+                                    <button class="button button3">Check Students those Result is Not Declared</button></a>
+                                    <br> -->
+                                
                                     <br>
+                                    <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Dates.." title="Type in a name"> -->
+                                    <!-- <br>  -->
+                                    <!-- <br> -->
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -130,10 +134,9 @@
                                                 <th>Quiz Title</th>
                                                 <th>Class</th>
                                                 <th>Subject</th>
-                                                <th>Result(Marks)</th>
-                                                <th>Total Question's</th>
-                                                <th style="color:Tomato;">Correct Answer</th>
-                                                <th style="color:MediumSeaGreen;">Worng Answer</th>
+                                                <th>Created Date</th>
+                                                <!-- <th>Question Image</th> -->
+                                                <!-- <th>Answer</th> -->
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -144,12 +147,11 @@
                                                 <td>{{ object.title }}</td>
                                                 <td>{{ object.clas }}</td>
                                                 <td>{{ object.subject }}</td>
-                                                <td>{{ object.result }} Mark</td>
-                                                <td>{{ object.total }} Question</td>
-                                                <td style="color:Tomato;">{{ object.correct }} Answer</td>
-                                                <td style="color:MediumSeaGreen;">{{ object.wrong }} Answer</td>
+                                                <td>{{ object.created_at }}</td>
+                                                <!-- <td>{{ object.que_Image }}</td> -->
+                                                <!-- <td>{{ object.answer }}</td> -->
                                                 <td>
-                                                    <button title="Delete" style="border-radius:12px"><a href="/Taskhome/MdeleteStu{{ object.id }}/{{ object.userid }}/delete?q={{ query }}">Delete</a></button>
+                                                    <button title="Delete" style="border-radius:12px"><a href="/Taskhome/MCQ_NoRes_Delete/{{ object.userid }}/{{ object.title }}/delete?q={{ query }}">Delete</a></button>
                                                 </td>
                                                 
                                             </tr>
