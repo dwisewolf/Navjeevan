@@ -156,7 +156,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE =  'Asia/Calcutta'
 
 USE_I18N = True
 
@@ -176,8 +176,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 #STATIC_URL = '/static/'
 #PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 #STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-CRONJOBS = [
-    ('*/15 * * * *', 'vimeoapi.views.myjob'),
-]
+# CRONJOBS = [
+#     ('0 */8 * * *', 'vimeoapi.views.myjob'),
+# ]
+
 # if data missing thn run job immidiate. there 38 means i.e. in every hour 38th minutes the job will run, if want run in any specific time thn need to edit
 # after edit need to run add command - (python manage.py crontab add) twice 
