@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2dde3853-8158-4338-8832-f08128f75c20" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1ffVAALRlGmcz3YlzRw4moGBNk0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="ics" />
+  </component>
+  <component name="RunManager">
+    <configuration name="manage" type="PythonConfigurationType" factoryName="Python" activateToolWindowBeforeRun="false">
+      <module name="Navjeevan_develop" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
+      <option name="PARAMETERS" value="runserver" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2dde3853-8158-4338-8832-f08128f75c20" name="Default Changelist" comment="" />
+      <created>1596608988063</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596608988063</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="451" y="27" width="1084" height="1053" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597048066986">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="451" y="27" width="1084" height="1053" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1597048066986" />
+    <state x="776" y="261" width="424" height="584" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1596690763142">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="776" y="261" width="424" height="584" key="#com.intellij.ide.macro.MacrosDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1596690763142" />
+    <state x="1047" y="334" key="#xdebugger.evaluate" timestamp="1596619571737">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="1047" y="334" key="#xdebugger.evaluate/67.27.1853.1053@67.27.1853.1053" timestamp="1596619571737" />
+    <state x="833" y="307" width="309" height="516" key="EnvironmentVariablesDialog" timestamp="1596615596916">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="833" y="307" width="309" height="516" key="EnvironmentVariablesDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1596615596916" />
+    <state x="776" y="323" width="424" height="484" key="FileChooserDialogImpl" timestamp="1596958173434">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="776" y="323" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1596958173434" />
+    <state width="1830" height="371" key="GridCell.Tab.0.bottom" timestamp="1597036885450">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1830" height="371" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1597036885450" />
+    <state width="1830" height="371" key="GridCell.Tab.0.center" timestamp="1597036885449">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1830" height="371" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1597036885449" />
+    <state width="1830" height="371" key="GridCell.Tab.0.left" timestamp="1597036885449">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1830" height="371" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1597036885449" />
+    <state width="1830" height="371" key="GridCell.Tab.0.right" timestamp="1597036885449">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1830" height="371" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1597036885449" />
+    <state width="1830" height="224" key="GridCell.Tab.1.bottom" timestamp="1596812775945">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1830" height="224" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1596812775945" />
+    <state width="1830" height="224" key="GridCell.Tab.1.center" timestamp="1596812775945">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1830" height="224" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1596812775945" />
+    <state width="1830" height="224" key="GridCell.Tab.1.left" timestamp="1596812775945">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1830" height="224" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1596812775945" />
+    <state width="1830" height="224" key="GridCell.Tab.1.right" timestamp="1596812775945">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1830" height="224" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1596812775945" />
+    <state x="576" y="298" width="824" height="508" key="IDE.errors.dialog" timestamp="1596683927631">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="576" y="298" width="824" height="508" key="IDE.errors.dialog/67.27.1853.1053@67.27.1853.1053" timestamp="1596683927631" />
+    <state x="482" y="187" key="SettingsEditor" timestamp="1597048145709">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="482" y="187" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1597048145709" />
+    <state width="926" height="527" key="XDebugger.FullValuePopup" timestamp="1596619037533">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="926" height="527" key="XDebugger.FullValuePopup/67.27.1853.1053@67.27.1853.1053" timestamp="1596619037533" />
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1596788804187">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1596788804187" />
+  </component>
+</project>
