@@ -1,7 +1,7 @@
-from .forms import StuForm, UserForm, UsersLoginForm, StuTaskForm, TeachForm, FeedbackForm, FeedUsersLoginForm, MCQCourseForm, MCQ_QueForm,MCQ_AttStuList, NewsDataForm
-from TeacherStu.models import Student, User, Stu_Task, Teach_Task, Feedback, MCQ_Question, MCQ_Post, MCQ_Result, News
+from .forms import StuForm, UserForm, UsersLoginForm, StuTaskForm, TeachForm, FeedbackForm, FeedUsersLoginForm, MCQCourseForm, MCQ_QueForm,MCQ_AttStuList, NewsDataForm, AuthDeleteLoginForm,MCQ_ResultFind
+from TeacherStu.models import Student, User, Stu_Task, Teach_Task, Feedback, MCQ_Question, MCQ_Post, MCQ_Result,MCQ_Answer, News
 from django.contrib.auth.models import User as authUser
-from . models import Users, FeedbackUser
+from . models import Users, FeedbackUser,AuthDeleteUser
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse,JsonResponse
@@ -16,6 +16,10 @@ import firebase_admin
 import google.cloud
 from firebase_admin import credentials, firestore
 import json
+import firebase_admin
+from firebase_admin import firestore
+from firebase_admin import credentials
+from firebase_admin import db
 
 # @login_required(login_url="/login/")
 def home(request): 
@@ -644,6 +648,21 @@ def authupdate_feedview(request, id=None):
     template = "updateFeed2.html"
     return render(request, template, context) 
     
+def delete_feedview(request , id=None):
+
+    query = request.GET.get("q", None)
+    print (query)
+    store = firestore.client()
+    obj = store.collection(u'feedback').document(id)
+    # obj = get_object_or_404(Feedback, id=id)
+    context = {"object": obj,"code":query}
+    template = "deleteFeed.html"
+    if request.method == 'POST':
+        obj.delete()
+        # messages.success(request, "Post Deleted...!")
+        return HttpResponseRedirect("/feedback/allFeedback?q="+query)
+    return render(request, template, context)
+    
 
 def MCQ_TopicList(request):
     query = request.GET.get("q", None)
@@ -941,28 +960,129 @@ def delete_MCQ_Queview2(request,title=None, id=None):
     return render(request, template, context)
 
 def MCQ_StuList2(request):
+    if request.method == 'POST':
+        clas = request.POST.get('clas')
+        subject = request.POST.get('subject')
+        form = MCQ_ResultFind(request.POST)
+        print(clas,subject)
+        if form.is_valid(): 
+            query = request.GET.get("q", None)
+            obj = MCQ_Result.objects.filter(userid__icontains=query,clas=clas,subject=subject).values().order_by('created_at')
+            context = {
+                    "object_list" : obj,
+                    "query":query
+                }
+            template = "allMCQ_AttStuList2.html"    
+            return render(request, template, context)
+    else: 
+        form = MCQ_ResultFind()   
+    return render(request, "userResult.html", {"form": form})
+
+def detail_MCQ_StuList2(request,userid=None,title=None):
     query = request.GET.get("q", None)
-    obj = MCQ_Result.objects.filter(userid__icontains=query).values().order_by('title')
+    school = userid[0:3]
+    qs = get_object_or_404(Student, userid__icontains=school,userid=userid)
+    pq = get_object_or_404(MCQ_Result, userid=userid,title=title)
+    context = {
+            "obj": pq,
+            "object" : qs,
+            "query":query
+            }
+    template = "getResUserDetails.html"
+    return render(request, template, context)
+    
+def detail_MCQ_StuTestList2(request,userid=None,title=None):
+    query = request.GET.get("q", None)
+    school = userid[0:3]
+    queData = MCQ_Answer.objects.filter(userid=userid,title=title).values()
+    # cAnsData = get_object_or_404(MCQ_Question, MCQPost_id__title__contains=title)
+    context = {
+            "object_list": queData,
+            # "object_correct" : cAnsData,
+            "query":query
+            }
+    template = "getStuQuesAnsData.html"
+    return render(request, template, context)
+    
+def delete_MCQStu2(request, id=None,userid=None):
+    query = request.GET.get("q", None)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        password = request.POST.get('password')
+        form = AuthDeleteLoginForm(request.POST)
+        if (AuthDeleteUser.objects.filter(name=name).exists()):
+            # query = name[-3:] 
+            user=AuthDeleteUser.objects.filter(name=name)
+            if (user.filter(password=password).exists()):
+                objResult = get_object_or_404(MCQ_Result, id=id)
+                objAnswer = MCQ_Answer.objects.filter(userid=userid)
+                context = {
+                        "object": objResult,
+                        "objectAns": objAnswer,
+                        "query":query
+                        }
+                template = "deleteMCQ_Stu2.html"
+                if request.method == 'POST':
+                    objResult.delete()
+                    objAnswer.delete()
+                    return HttpResponseRedirect("/Taskhome/allMStu?q="+query)
+            else:
+                messages.info(request, 'Enter the Correct Password!')
+                form = AuthDeleteLoginForm()   
+                return render(request, "userlogin3.html", {"form": form})
+        else:
+            messages.info(request, 'Username not exist!!!')
+            form = AuthDeleteLoginForm()   
+            return render(request, "userlogin3.html", {"form": form})
+    else: 
+        form = AuthDeleteLoginForm()   
+    return render(request, "userlogin3.html", {"form": form})
+    
+def detail_MCQStu_NoRes_List2(request):
+    query = request.GET.get("q", None)
+    resData = MCQ_Result.objects.all().values('userid','title','clas','subject')
+    ansData = MCQ_Answer.objects.filter(userid__icontains=query).distinct().values('userid','title','clas','subject')
+    obj = ansData.difference(resData)
     context = {
             "object_list" : obj,
             "query":query
         }
-    template = "allMCQ_AttStuList2.html"    
+    template = "allMCQ_AttStuList3.html"    
     return render(request, template, context)
 
-def delete_MCQStu2(request, id=None):
+def delete_MCQStu3(request,userid=None,title=None):
     query = request.GET.get("q", None)
-    obj = get_object_or_404(MCQ_Result, id=id)
-    context = {
-            "object": obj,
-            "query":query
-            }
-    template = "deleteMCQ_Stu2.html"
     if request.method == 'POST':
-        obj.delete()
-        # messages.success(request, "Post Deleted...!")
-        return HttpResponseRedirect("/Taskhome/allMStu?q="+query)
-    return render(request, template, context)
+        name = request.POST.get('name')
+        password = request.POST.get('password')
+        form = AuthDeleteLoginForm(request.POST)
+        if (AuthDeleteUser.objects.filter(name=name).exists()):
+            user=AuthDeleteUser.objects.filter(name=name)
+            if (user.filter(password=password).exists()):
+                # objResult = get_object_or_404(MCQ_Result, id=id)
+                objAnswer = MCQ_Answer.objects.filter(userid=userid,title=title)
+                context = {
+                        # "object": objResult,
+                        "objectAns": objAnswer,
+                        "query":query
+                        }
+                template = "deleteMCQ_Stu2.html"
+                if request.method == 'POST':
+                    # objResult.delete()
+                    objAnswer.delete()
+                    return HttpResponseRedirect("/Taskhome/MCQ_NoResDetails/details?q="+query)
+            else:
+                messages.info(request, 'Enter the Correct Password!')
+                form = AuthDeleteLoginForm()   
+                return render(request, "userlogin3.html", {"form": form})
+        else:
+            messages.info(request, 'Username not exist!!!')
+            form = AuthDeleteLoginForm()   
+            return render(request, "userlogin3.html", {"form": form})
+    else: 
+        form = AuthDeleteLoginForm()   
+    return render(request, "userlogin3.html", {"form": form})
+    
     
 def NewsDataList(request):
     query = request.GET.get("q", None)
@@ -1079,3 +1199,31 @@ def delete_NewsData(request, id=None):
 #     template = "allList.html"    
 #     return render(request, template, context)
 
+def detail(request):
+    #query = request.GET.get("id", None)
+    #print(query)
+    cred = credentials.Certificate('njms-2e633-firebase-adminsdk-xozcb-01325570ba.json')
+    #fb_admin = firebase_admin.initialize_app(cred, {'databaseURL': 'https://njms-2e633.firebaseio.com'})
+    db = firestore.client()
+    doc_ref = db.collection('unitTest')
+    reg = []
+    docs = [snapshot for snapshot in doc_ref.stream()]
+    for doc in docs:
+        data={}
+        if 'field1' in doc.to_dict():
+            if doc.to_dict()['field1']:
+            #if 'reg' in doc.to_dict()['field1'][0]:
+                obj = doc.to_dict()['field1']
+                data.update({'reg' : doc.to_dict()['field1'][0]['reg'] })
+                data.update({'subject':  doc.to_dict()['field1'][0]['subject'] })
+                data.update({'class' : doc.to_dict()['field1'][0]['class'] })
+                data.update({'title' : doc.to_dict()['field1'][0]['reg'] })
+                data.update({'count' : len(doc.to_dict()['field1']) })
+                reg.append(data)
+    print(reg)
+    obj = reg
+    context = {
+            "object_list" : obj
+        }
+    template = "unittestlist.html"
+    return render(request, template, context)
