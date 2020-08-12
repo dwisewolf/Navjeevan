@@ -6,6 +6,7 @@ import jsonfield
 # Create your models here.
 
 class Vimeo(models.Model):
+    objects = models.Manager()
     title = models.CharField(max_length=255, null=True, blank=True)
     college = models.CharField(max_length=100, null=True, blank=True)
     sub = models.CharField(max_length=100, null=True, blank=True)
@@ -18,6 +19,7 @@ class Vimeo(models.Model):
 
 
 class VimeoStatus(models.Model):
+    objects = models.Manager()
     status = models.BooleanField(default=False)
     count = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
