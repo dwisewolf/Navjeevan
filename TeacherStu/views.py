@@ -95,18 +95,33 @@ class NewsView(APIView):
 	def post(self, request):
 		data=self.request.data
 		user_code = data.get('user_code')
+		date = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+		print(date)
 		ucode = user_code[0:3]
 		# tcode = user_code[-3:]
 		if (Student.objects.filter(userid=user_code).exists()):
-			reqCls = Student.objects.filter(userid=user_code).values_list('clas',flat=True)[0]
-			stuCls = News.objects.filter(class_code=reqCls)
-			stuSchool = News.objects.filter(school_code=ucode)
-			news_list= (stuCls.filter(school_code=ucode).values() | stuCls.filter(school_code="ALL").values() | stuSchool.filter(class_code='ALL').values() | News.objects.filter(school_code='ALL',class_code='ALL').values())
-			serializer=newsSerializer(news_list,many=True)
-			return Response(serializer.data)
+			reqName = Student.objects.filter(userid=user_code).values_list('name',flat=True)[0]
+			reqDate = News.objects.exclude(expiryDate__lt=date).values('expiryDate')
+			# print(reqDate)
+			if (reqDate.filter(user_code=reqName).exists()):
+				reqCls = Student.objects.filter(userid=user_code).values_list('clas',flat=True)[0]
+				stuCls = reqDate.filter(class_code=reqCls)
+				stuName = reqDate.filter(user_code=reqName)
+				stuSchool = reqDate.filter(school_code=ucode)
+				news_list= (stuName.filter(school_code=ucode).values() | stuCls.filter(school_code="ALL").values() | stuSchool.filter(class_code='ALL').values() | News.objects.filter(school_code='ALL',class_code='ALL').values())
+				serializer=newsSerializer(news_list,many=True)
+				return Response(serializer.data)
+			else:
+				reqCls = Student.objects.filter(userid=user_code).values_list('clas',flat=True)[0]
+				stuUserCode = reqDate.filter(school_code=ucode,class_code=reqCls)
+				stuCls = reqDate.filter(class_code=reqCls)
+				stuSchool = reqDate.filter(school_code=ucode)
+				news_list= (stuUserCode.filter(user_code="ALL").values() | stuCls.filter(school_code="ALL").values() | stuSchool.filter(class_code='ALL').values() | News.objects.filter(school_code='ALL',class_code='ALL').values())
+				serializer=newsSerializer(news_list,many=True)
+				return Response(serializer.data)
 		else:
 			return services.MesgResponse(user_code, mesg='User-Code not Exist...!!!', status=status.HTTP_400_BAD_REQUEST)
-			
+
 
  
 class stuTaskList(APIView):
@@ -454,7 +469,84 @@ class MCQ_ResultData(APIView):
 			else:
 				return services.MesgResponse(school_code,mesg="School Not Exist",status=status.HTTP_400_BAD_REQUEST) 
                                                                                      
-    
+@api_view(['POST',])
+def MCQ_stuResult(request):
+    userid = request.data.get('userid',None)
+    if (userid is None or len(userid)==0):    
+    	return services.MesgResponse(userid,mesg="Please Enter Valid User-Id.",status=204) 
+    elif (MCQ_Result.objects.filter(userid=userid).exists()):
+    	res_list= MCQ_Result.objects.filter(userid=userid).values()
+    	serializer=MCQ_ResultSerializer(res_list,many=True)
+    	return Response(serializer.data)
+    else:
+    	return services.MesgResponse(userid,mesg='User-Id is Invalid...',status=status.HTTP_400_BAD_REQUEST)    
+     
+@api_view(['POST',])
+def MCQ_stuResultDetails(request):
+    userid = request.data.get('userid',None)
+    title = request.data.get('title',None)
+    mesg = []
+    if ((userid is None or len(userid)==0) | (title is None or len(title)==0)):    
+    	return services.MesgResponse(userid,mesg="Please Enter User-Id and Title.",status=204) 
+    elif (MCQ_Answer.objects.filter(userid=userid,title=title).exists()):
+    	ans_list= MCQ_Answer.objects.filter(userid=userid,title=title).values('title','clas','subject','question','que_Image','answer')
+    	post_list= MCQ_Question.objects.filter(MCQPost_id__title=title).values('que_title','que_Image','correct_answer')
+    	res_list= MCQ_Result.objects.filter(userid=userid,title=title).values('result','total','correct','wrong')
+    	mesg1=list(ans_list)
+    	mesg2=list(post_list)
+    	mesg3=list(res_list)
+    	Student_Data_list = []
+    	Actual_QueAnswer_List = []
+    	Result_list = []
+    	if len(mesg1)>0:
+    		for elm in mesg1:
+    			title = elm["title"]
+    			clas = elm["clas"]
+    			subject = elm["subject"]
+    			question = elm["question"]
+    			que_Image = elm["que_Image"]
+    			answer = elm["answer"]
+    			Student_Data_list.append({
+    				"title":title,
+    				"clas":clas,
+    				"subject":subject,
+    				"Question_AnswerData":[{
+		                "question":question,
+		                "que_Image":que_Image,
+		                "answer":answer
+		                }]
+    				})
+    	if len(mesg2)>0:
+    		for elm in mesg2:
+    			que_title = elm["que_title"]
+    			correct_answer = elm["correct_answer"]
+    			que_Image = elm["que_Image"]
+    			Actual_QueAnswer_List.append({
+    				"que_title":que_title,
+    				"correct_answer":correct_answer,
+    				"que_Image":que_Image
+    				})
+    	if len(mesg3)>0:
+    		for elm in mesg3:
+    			result = elm["result"]
+    			total = elm["total"]
+    			correct = elm["correct"]
+    			wrong = elm["wrong"]
+    			Result_list.append({
+    				"result":result,
+    				"total":total,
+    				"correct,":correct,
+    				"wrong":wrong
+    				})
+    	data = {}
+    	data["Student_Data_list"] = Student_Data_list 
+    	data["Actual_QueAnswer_List"] = Actual_QueAnswer_List
+    	data["Result_list"] = Result_list
+    	return Response(data)
+    else:
+    	return services.MesgResponse(userid,mesg='User-Id is Invalid...',status=status.HTTP_400_BAD_REQUEST)    
+
+		    
 
 @api_view(['GET',])
 def userData(request):

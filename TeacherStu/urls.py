@@ -21,8 +21,9 @@ urlpatterns = [
     url(r'^MCQ_QueData/', views.MCQ_QueView, name='MCQ_QuestionData_AnswerData_AccToTitle_SchoolandClass'),
     url(r'^MCQansData/', views.MCQ_AnswerData.as_view(), name='MCQAnswerData'), 
     url(r'^MCQcheckansData/', views.MCQ_FansView, name='MCQ_CheckAnswerData'),
-    url(r'^MCQResData/', views.MCQ_ResultData.as_view(), name="MCQ_ResultData_and_GettingListof_Quizz_those_StudentDon't_attendQuiz"),     
-
+    url(r'^MCQResData/', views.MCQ_ResultData.as_view(), name="MCQ_ResultData_and_GettingListof_Quizz_those_StudentDon't_attendQuiz"), 
+    url(r'^MCQ_stuResultData/', views.MCQ_stuResult, name='MCQ_Student_Result_Data'), 
+    url(r'^MCQ_stuResultDetails/', views.MCQ_stuResultDetails, name='MCQ_Student_Result_Details'),    
 ]
 
 
