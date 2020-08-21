@@ -107,11 +107,15 @@
     <div class="container">
         <div class="col-md-10 offset-md-1 mt-5">
             <div class="jumbotron">
-                <h1 class="display-4">Student Result with Details</h1>
+                <h1 class="display-4">Student Details</h1>
                 <hr class="my-4">
                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                       <thead>
+                                            <tr>
+                                             <th>Student Id</th>
+                                             <td>{{ object.userid }} </td>
+                                            </tr>
                                             <tr>
                                              <th>Student Name</th>
                                              <td>{{ object.name }} </td>
@@ -125,6 +129,10 @@
                                              <td>{{ object.mobileNum }} </td>
                                             </tr>
                                             <tr>
+                                             <th>Class</th>
+                                             <td>{{ object.clas }} </td>
+                                            </tr>
+                                            <!-- <tr>
                                              <th>Class</th>
                                              <td>{{ obj.clas }} </td>
                                             </tr>
@@ -151,12 +159,13 @@
                                             <tr style="color:MediumSeaGreen;">
                                              <th>Wrong Answer </th>
                                              <td>{{ obj.wrong }} Answer </td>
-                                            </tr>
-                                            <tr>
+                                            </tr> -->
+                
+                                            <!-- <tr>
                                                 <td>
                                                     <button title="Edit" style="border-radius:12px"><a href="/Taskhome/MCQtestDetails/{{ object.userid }}/{{ obj.title }}/details?q={{ query }}">Check MCQ Test of Student</a></button>
                                                 </td>
-                                              </tr>
+                                              </tr> -->
                                         </thead>               
             </div>
         </div>

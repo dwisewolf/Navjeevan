@@ -126,14 +126,16 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     
-                                    <a href="{% url 'authcreateMCQTopic' %}?q={{query}}">
-                                    <button class="button button3">+ Add New Quiz Topic</button></a>
-                                    <a href="{% url 'authAllMCQ_Student_List' %}?q={{query}}">
-                                    <button class="button button3">Check Students Result's</button></a>
+                                    <a class="btn-sm btn-info" href="{% url 'authcreateMCQTopic' %}?q={{query}}">+ Add New Quiz Topic</a>
+                                    <a class="btn-sm btn-info" href="{% url 'authAllMCQ_Student_List' %}?q={{query}}">Check Students Result's</a>
+                                    <a class="btn-sm btn-info" href="{% url 'student_mcq_responses' %}?q={{query}}"> Check Student Responses</a>
+                                    <a class="btn-sm btn-info" href="{% url 'student_mcq_optional_unit' %}?q={{query}}"> Check Student Optional Test</a>
+                                    <a class="btn-sm btn-info" href="{% url 'student_mcq_timeout' %}?q={{query}}"> Check Student Timeout</a>
+                                    <a class="btn-sm btn-info" href="{% url 'student_mcq_unit_count' %}?q={{query}}"> Check Student Unit Count</a>
                                     <br>
                                     <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Dates.." title="Type in a name"> -->
                                     <!-- <br>  -->
-                                    <!-- <br> -->
+                                    <br>
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>

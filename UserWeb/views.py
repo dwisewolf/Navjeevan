@@ -1,7 +1,7 @@
-from .forms import StuForm, UserForm, UsersLoginForm, StuTaskForm, TeachForm, FeedbackForm, FeedUsersLoginForm, MCQCourseForm, MCQ_QueForm,MCQ_AttStuList, NewsDataForm, AuthDeleteLoginForm,MCQ_ResultFind
+from .forms import StuForm, UserForm, UsersLoginForm, StuTaskForm, TeachForm, FeedbackForm, FeedUsersLoginForm, MCQCourseForm, MCQ_QueForm,MCQ_AttStuList, NewsDataForm, AuthDeleteLoginForm,MCQ_ResultFind, MCQLoginForm
 from TeacherStu.models import Student, User, Stu_Task, Teach_Task, Feedback, MCQ_Question, MCQ_Post, MCQ_Result,MCQ_Answer, News
 from django.contrib.auth.models import User as authUser
-from . models import Users, FeedbackUser,AuthDeleteUser
+from . models import *
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse,JsonResponse
@@ -782,12 +782,12 @@ def MCQ_StuList(request):
     
 def authMCQList(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
+        username = request.POST.get('username')
         password = request.POST.get('password')
-        form = UsersLoginForm(request.POST)
-        if (Users.objects.filter(name=name).exists()):
-            query = name[-3:] 
-            user=Users.objects.filter(name=name)
+        form = MCQLoginForm(request.POST)
+        if (MCQUser.objects.filter(username=username).exists()):
+            query = username[-3:] 
+            user=MCQUser.objects.filter(username=username)
             if (user.filter(password=password).exists()):
                 if form.is_valid(): 
                         obj = MCQ_Post.objects.filter(school=query).values().order_by('title')
@@ -806,8 +806,9 @@ def authMCQList(request):
             messages.info(request, 'Username not exist!!!')
             return HttpResponseRedirect("/Taskhome/authallTask?q=")
     else: 
-        form = UsersLoginForm()   
+        form = MCQLoginForm()   
     return render(request, "userlogin2.html", {"form": form})
+
 
 def clasSearchTopic2(request, clas=None):
     query = request.GET.get("q", None)
@@ -959,38 +960,89 @@ def delete_MCQ_Queview2(request,title=None, id=None):
         return HttpResponseRedirect("/Taskhome/allMQue"+title+"?q="+query)
     return render(request, template, context)
 
-def MCQ_StuList2(request):
+def loginpage(request):
+    # query = request.GET.get("q", None)
     if request.method == 'POST':
-        clas = request.POST.get('clas')
-        subject = request.POST.get('subject')
-        form = MCQ_ResultFind(request.POST)
-        print(clas,subject)
-        if form.is_valid(): 
-            query = request.GET.get("q", None)
-            obj = MCQ_Result.objects.filter(userid__icontains=query,clas=clas,subject=subject).values().order_by('created_at')
-            context = {
-                    "object_list" : obj,
-                    "query":query
-                }
-            template = "allMCQ_AttStuList2.html"    
-            return render(request, template, context)
-    else: 
-        form = MCQ_ResultFind()   
-    return render(request, "userResult.html", {"form": form})
+        username = request.POST['username']
+        password =  request.POST['password']
+        
+        query=username[-3:]
+        print(query)
+        if(ResultUser.objects.filter(username=username,password=password).exists()):
+            post = ResultUser.objects.filter(username=username)
+            if post:
+                username = request.POST['username']
+                request.session['username'] = username
+                print("Successfully")
+                return HttpResponseRedirect("/Taskhome/allMStu/?q="+query)
+            else:
+                print("Failed")
+                return render(request, 'login1.html', {})
+        else:
+            messages.info(request, 'Username or Password not exist!!!')
+            return render(request, 'login1.html', {})
+    return render(request, 'login1.html', {})
+
+# def logout(request):
+#     try:
+#         del request.session['username']
+#     except:
+#      pass
+#     return render(request, 'login1.html', {})
+
+def MCQ_StuList2(request):
+    query = request.GET.get("q", None)
+    if request.session.has_key('username'):
+        print("Successfully")
+        if request.method == 'POST':
+            clas = request.POST.get('clas')
+            subject = request.POST.get('subject')
+            form = MCQ_ResultFind(request.POST)
+            print(clas,subject)
+            if form.is_valid(): 
+                obj = MCQ_Result.objects.filter(userid__icontains=query,clas=clas,subject=subject).values().order_by('created_at')
+                context = {
+                        "object_list" : obj,
+                        "query":query
+                    }
+                template = "allMCQ_AttStuList2.html"    
+                return render(request, template, context)
+        else: 
+            form = MCQ_ResultFind()   
+            return render(request, "userResult.html", {"form": form})
+    else:
+        return HttpResponseRedirect("/signin/")
+
 
 def detail_MCQ_StuList2(request,userid=None,title=None):
     query = request.GET.get("q", None)
+    if request.session.has_key('username'):
+        school = userid[0:3]
+        qs = get_object_or_404(Student, userid__icontains=school,userid=userid)
+        pq = get_object_or_404(MCQ_Result, userid=userid,title=title)
+        context = {
+                "obj": pq,
+                "object" : qs,
+                "query":query
+                }
+        template = "getResUserDetails.html"
+        return render(request, template, context)
+    else:
+        return HttpResponseRedirect("/signin/")
+
+def detail_MCQ_StuList3(request,userid=None,title=None):
+    query = request.GET.get("q", None)
     school = userid[0:3]
     qs = get_object_or_404(Student, userid__icontains=school,userid=userid)
-    pq = get_object_or_404(MCQ_Result, userid=userid,title=title)
+    # pq = get_object_or_404(MCQ_Result, userid=userid,title=title)
     context = {
-            "obj": pq,
+            # "obj": pq,
             "object" : qs,
             "query":query
             }
     template = "getResUserDetails.html"
     return render(request, template, context)
-    
+
 def detail_MCQ_StuTestList2(request,userid=None,title=None):
     query = request.GET.get("q", None)
     school = userid[0:3]
@@ -1003,19 +1055,18 @@ def detail_MCQ_StuTestList2(request,userid=None,title=None):
             }
     template = "getStuQuesAnsData.html"
     return render(request, template, context)
-    
-def delete_MCQStu2(request, id=None,userid=None):
+
+def delete_MCQStu2(request, id=None,userid=None,title=None):
     query = request.GET.get("q", None)
     if request.method == 'POST':
         name = request.POST.get('name')
         password = request.POST.get('password')
         form = AuthDeleteLoginForm(request.POST)
         if (AuthDeleteUser.objects.filter(name=name).exists()):
-            # query = name[-3:] 
             user=AuthDeleteUser.objects.filter(name=name)
             if (user.filter(password=password).exists()):
                 objResult = get_object_or_404(MCQ_Result, id=id)
-                objAnswer = MCQ_Answer.objects.filter(userid=userid)
+                objAnswer = MCQ_Answer.objects.filter(userid=userid,title=title)
                 context = {
                         "object": objResult,
                         "objectAns": objAnswer,
@@ -1037,18 +1088,22 @@ def delete_MCQStu2(request, id=None,userid=None):
     else: 
         form = AuthDeleteLoginForm()   
     return render(request, "userlogin3.html", {"form": form})
-    
+        
+from django.db.models import Q
 def detail_MCQStu_NoRes_List2(request):
     query = request.GET.get("q", None)
-    resData = MCQ_Result.objects.all().values('userid','title','clas','subject')
-    ansData = MCQ_Answer.objects.filter(userid__icontains=query).distinct().values('userid','title','clas','subject')
-    obj = ansData.difference(resData)
-    context = {
-            "object_list" : obj,
-            "query":query
-        }
-    template = "allMCQ_AttStuList3.html"    
-    return render(request, template, context)
+    if request.session.has_key('username'):
+        resData = MCQ_Result.objects.filter(userid__icontains=query).values('userid','title','clas','subject')
+        ansData = MCQ_Answer.objects.filter(userid__icontains=query).distinct().values('userid','title','clas','subject')
+        obj = ansData.difference(resData)
+        context = {
+                "object_list" : obj,
+                "query":query
+            }
+        template = "allMCQ_AttStuList3.html"    
+        return render(request, template, context)
+    else:
+        return HttpResponseRedirect("/signin?q="+query)
 
 def delete_MCQStu3(request,userid=None,title=None):
     query = request.GET.get("q", None)
@@ -1227,3 +1282,135 @@ def detail(request):
         }
     template = "unittestlist.html"
     return render(request, template, context)
+    
+def get_cloud_timedOut_data():
+    # firstly connect to cloud frebase. 
+    # query = request.GET.get("q", None)
+    store = firestore.client()
+    doc_ref = store.collection(u'timedOut')
+    
+    data = []
+    try:
+        docs = doc_ref.get()
+        for doc in docs:
+            dic1={}
+            dic2=doc.to_dict()            
+            # dic1['id'] = (doc.id)
+            # dic1.update(dic2)
+            data.append(dic2)
+
+            # print(u'Doc Data:{}'.format(doc.to_dict()))
+    except google.cloud.exceptions.NotFound:
+        print(u'Missing data')
+    # print(data)
+    return data
+
+
+def timedOutList(request):
+    query = request.GET.get("q", None)
+    timedOut_list = get_cloud_timedOut_data()
+    # print(timedOut_list)
+    context = {
+            "object_list" : timedOut_list,
+            "code":query
+            }
+    template = "alltimedOut.html"    
+    return render(request, template, context) 
+
+def timedOutDetail(request,userid=None):
+    # query = request.GET.get("q", None)
+    # timedOut_list = get_cloud_timedOut_data()
+    # print(timedOut_list)
+    qs = get_object_or_404(Student,userid=userid)
+    context = {
+            "object" : qs,
+            # "code":query
+            }
+    template = "getUserDetails.html"    
+    return render(request, template, context)
+    
+def Optional_colDetails(request):
+    store = firestore.client()
+    doc_ref = store.collection(u'optional_unit')
+    data = []
+    try:
+        docs = doc_ref.get()
+        for doc in docs:
+            dic1={}
+            dic2=doc.to_dict() 
+            dic1['id'] = (doc.id)  
+            dic1.update(dic2)         
+            data.append(dic1)
+    except google.cloud.exceptions.NotFound:
+        print(u'Missing data')
+
+    # print(data)
+    context = {
+            "object_list" : data
+            }
+    template = "Option_UnitDB.html"
+    return render(request, template, context)
+
+def student_mcq_responses(request, *args, **kwargs):
+    query = request.GET.get("q", None)
+    action = request.GET.get("action")
+    id = request.GET.get("id")
+    student_id = request.GET.get("student_id")
+    if action == 'delete' and id and student_id:
+        content = UnitTest.objects.filter(id=id, reg=student_id).delete()
+    obj = UnitTest.objects.all().values('reg','title','clas','subject').distinct()
+
+    context = {
+        "object_list": obj,
+        "query": query
+    }
+    return render(request, 'mcq_responses.html', context)
+
+
+def student_mcq_optional_unit(request):
+    query = request.GET.get("q", None)
+    action = request.GET.get("action")
+    id = request.GET.get("id")
+    student_id = request.GET.get("student_id")
+    if action == 'delete' and id and student_id:
+        OptionalUnit.objects.filter(id=id, reg=student_id).delete()
+    optional_unit = OptionalUnit.objects.all()
+
+    context = {
+        "object_list": optional_unit,
+        "query": query
+    }
+    return render(request, 'mcq_optional_unit.html', context)
+
+
+def student_mcq_timeout(request):
+    query = request.GET.get("q", None)
+    action = request.GET.get("action")
+    id = request.GET.get("id")
+    student_id = request.GET.get("student_id")
+
+    if action == 'delete' and id and student_id:
+        TimedOut.objects.filter(id=id, reg=student_id).delete()
+    timeout = TimedOut.objects.all()
+
+    context = {
+        "object_list": timeout,
+        "query": query
+    }
+    return render(request, 'mcq_timeout.html', context)
+
+
+def student_mcq_unit_count(request):
+    query = request.GET.get("q", None)
+    action = request.GET.get("action")
+    id = request.GET.get("id")
+    student_id = request.GET.get("student_id")
+    if action == 'delete' and id and student_id:
+        TimedOut.objects.filter(id=id, reg=student_id).delete()
+
+    unit_count = UnitCount.objects.all()
+    context = {
+        "object_list": unit_count,
+        "query": query
+    }
+    return render(request, 'mcq_unit_count.html', context)    

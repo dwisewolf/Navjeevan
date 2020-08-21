@@ -27,6 +27,9 @@ urlpatterns = [
     url(r'^logout/$', auth_views.LogoutView.as_view(template_name="userlogout.html"), name='logout'),
     path('userlogin/', views.Userdata,name='userlogin'),
     path('userlogout/', views.userlogout,name='userlogout'),
+    path('signin/', views.loginpage, name='loginpage'),
+    url(r'^MCQ_Reslogout/$', auth_views.LogoutView.as_view(template_name="resLogout.html"), name='Resultlogout'),
+
 # Student's Task URL's
     path('home/allTask', views.stuTaskList,name='allTaskList'), 
     path('home/addTask', views.create_Taskview,name='createTask'),  
@@ -87,4 +90,13 @@ urlpatterns = [
 
 # UnitTest Data From Firebase
     path('home/firebaseDetail', views.detail, name='detail'),
+# TimedOut Data From Firebase  
+    path('home/alltimedOut', views.timedOutList,name='timedOutList'),  
+    url(r'^home/alltimedOut/details/(?P<userid>[\w-]+)', views.timedOutDetail,name='timedOutDetail'), 
+    path('home/alloptionalUnit', views.Optional_colDetails, name='optionUnitDb'),
+# Firestore Data  
+    path('Taskhome/student_mcq_responses/', views.student_mcq_responses,name='student_mcq_responses'),
+    path('Taskhome/student_mcq_optional_unit/', views.student_mcq_optional_unit,name='student_mcq_optional_unit'),
+    path('Taskhome/student_mcq_timeout/', views.student_mcq_timeout,name='student_mcq_timeout'),
+    path('Taskhome/student_mcq_unit_count/', views.student_mcq_unit_count,name='student_mcq_unit_count'),
 ]

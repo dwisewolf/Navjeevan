@@ -1,5 +1,5 @@
 from django import forms  
-from . models import Users, FeedbackUser, AuthDeleteUser
+from . models import Users, FeedbackUser, AuthDeleteUser,ResultUser,MCQUser
 from django.core.exceptions import ValidationError
 from TeacherStu.models import Student, User, News, Stu_Task, Teach_Task, Feedback, MCQ_Post, MCQ_Question, MCQ_Answer, MCQ_Result
 
@@ -300,7 +300,34 @@ class MCQ_ResultFind(forms.ModelForm):
             'subject': forms.Select(attrs={'id':'choicewa','class':'form-control'}),
            }
 
-        
+class ResultuserLoginForm(forms.ModelForm):  
 
+    class Meta:
+        model = ResultUser
+        fields = ['username','password']
 
+        password = forms.CharField(widget=forms.PasswordInput)
+        widgets = {
+            'password': forms.PasswordInput(attrs={'class': 'input-text with-border', 'placeholder': 'Enter Password'}),
+            'username': forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter User-Name'}),
+        }
+        labels = {
+            'username': ('User-Name'),
+            'password':('Password'),
+            }
 
+class MCQLoginForm(forms.ModelForm):  
+
+    class Meta:
+        model = MCQUser
+        fields = ['username','password']
+
+        password = forms.CharField(widget=forms.PasswordInput)
+        widgets = {
+            'password': forms.PasswordInput(attrs={'class': 'input-text with-border', 'placeholder': 'Enter Password'}),
+            'username': forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter User-Name'}),
+        }
+        labels = {
+            'username': ('User-Name'),
+            'password':('Password'),
+            }
