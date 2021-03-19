@@ -15,7 +15,7 @@ django-import-export==2.1.0
 django-jet==1.0.8
 django-jsonfield==1.4.0
 django-queryset-csv==1.1.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 et-xmlfile==1.0.1
 feedparser==5.2.1
 firebase-admin==4.3.0
